@@ -36,7 +36,7 @@ public class Input {
             }
         };
 
-    };
+    }
 
     public static boolean isKeyDown (int key){
         return keys[key];

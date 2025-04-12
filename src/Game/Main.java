@@ -1,16 +1,18 @@
 package Game;
 
-import engine.IO.Input;
+
+import engine.IO.*;
 import org.lwjgl.glfw.GLFW;
 
 
-import engine.IO.Window;
 
 public class Main implements Runnable {
     public Thread game;
     public Window window;
-    public final int WIDTH = 1280, HEIGHT = 760;
+    public final int WIDTH = 1500, HEIGHT = 800;
     public final String TITLE = "BOOM";
+
+
 
     public void start() {
         game = new Thread(this, TITLE);
@@ -25,8 +27,9 @@ public class Main implements Runnable {
     public void run() {
         init();
         while (!window.shouldClose()) {
-            update();
             render();
+            update();
+
             if (Input.isKeyDown(GLFW.GLFW_KEY_ESCAPE)) {
                 System.out.println("Game has been closed.");
                 return;
@@ -35,18 +38,25 @@ public class Main implements Runnable {
         window.destroy();
     }
 
+
     private void update() {
         window.update();
-        if (Input.isButtonDown(GLFW.GLFW_MOUSE_BUTTON_LEFT)) {
-            System.out.println("X: " + Input.getMouseX() + "| Y: " + Input.getMouseY());
+
+         if (Input.isButtonDown(GLFW.GLFW_MOUSE_BUTTON_LEFT)) {
+         System.out.println("X: " + Input.getMouseX() + "| Y: " + Input.getMouseY());}
+
         }
-    }
 
     private void render() {
-        window.swapBuffers();
+
+
+
+        window.render();
     }
 
     public static void main(String[] args) {
         new Main().start();
     }
 }
+
+
