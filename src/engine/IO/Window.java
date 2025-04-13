@@ -3,6 +3,7 @@ package engine.IO;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
+import org.lwjgl.opengl.GL11;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -50,6 +51,7 @@ public class Window {
         //GLFW.glfwSetWindowPos(window, (videoMode.width() - width / 2), (videoMode.height() - height / 2));
         GLFW.glfwMakeContextCurrent(window);
         GL.createCapabilities();
+        GL11.glEnable(GL_DEPTH_TEST);
 
         initGraphics(videoMode.width(), videoMode.height());
 
@@ -60,6 +62,7 @@ public class Window {
         GLFW.glfwSetKeyCallback(window, input.getKeyboardCallback());
         GLFW.glfwSetCursorPosCallback(window, input.getMousePosCallback());
         GLFW.glfwSetMouseButtonCallback(window, input.getMouseButtonCallback());
+        GLFW.glfwSetScrollCallback(window, input.getScrollCallback());
 
 
         GLFW.glfwShowWindow(window);
@@ -72,7 +75,8 @@ public class Window {
 
 
     public void update() {
-
+        GL11.glClearColor(backgroundR, backgroundG, backgroundB, 1.0f);
+        GL11.glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         GLFW.glfwPollEvents();
         frames++;
         if (System.currentTimeMillis() > time + 1000) {

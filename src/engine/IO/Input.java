@@ -1,18 +1,17 @@
 package engine.IO;
 
-import org.lwjgl.glfw.GLFW;
-import org.lwjgl.glfw.GLFWCursorPosCallback;
-import org.lwjgl.glfw.GLFWKeyCallback;
-import org.lwjgl.glfw.GLFWMouseButtonCallback;
+import org.lwjgl.glfw.*;
 
 public class Input {
     private static boolean[] keys = new boolean[GLFW.GLFW_KEY_LAST];
     private static boolean[] buttons = new boolean[GLFW.GLFW_MOUSE_BUTTON_LAST];
-    private static double mouseX, mouseY;
+    private static double mouseX, mouseY, scrollX, scrollY;
 
     private GLFWKeyCallback keyboard;
     private GLFWMouseButtonCallback mouseButton;
     private GLFWCursorPosCallback mousePos;
+    private GLFWScrollCallback mouseScroll;
+
 
 
     public Input() {
@@ -36,6 +35,14 @@ public class Input {
             }
         };
 
+        mouseScroll = new GLFWScrollCallback() {
+            public void invoke(long window, double scrollOffsetX, double scrollOffsetY) {
+                scrollX += scrollOffsetX;
+                scrollY += scrollOffsetY;
+
+            }
+        };
+
     }
 
     public static boolean isKeyDown (int key){
@@ -50,6 +57,7 @@ public class Input {
         keyboard.free();
         mouseButton.free();
         mousePos.free();
+        mouseScroll.free();
     }
 
 
@@ -62,8 +70,19 @@ public class Input {
         return mouseY;
     }
 
+    public static double getScrollX(){
+        return scrollX;
+    }
 
+    public static double getScrollY(){
+        return scrollY;
+    }
 
+    public static void resetScroll(){
+        scrollX = 0;
+        scrollY = 0;
+
+    }
 
 
     public GLFWKeyCallback getKeyboardCallback() {
@@ -78,6 +97,10 @@ public class Input {
         return mousePos;
     }
 
+    public GLFWScrollCallback getScrollCallback() {
+        return mouseScroll;
+    }
+
     public double getMouseXCallback() {
         return mouseX;
     }
@@ -85,5 +108,18 @@ public class Input {
     public double getMouseYCallback() {
         return mouseY;
     }
+
+    public double getScrollXCallback() {
+        return scrollX;
+    }
+
+    public double getScrollYCallback() {
+        return scrollY;
+    }
+
+
+
+
+
 
 }

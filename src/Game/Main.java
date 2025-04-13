@@ -21,6 +21,7 @@ public class Main implements Runnable {
 
     public void init() {
         window = new Window(WIDTH, HEIGHT, TITLE);
+        window.setBackgroundColor(255, 255, 255); //white ; 0xFFFFFF in hex
         window.create();
     }
 
@@ -43,7 +44,19 @@ public class Main implements Runnable {
         window.update();
 
          if (Input.isButtonDown(GLFW.GLFW_MOUSE_BUTTON_LEFT)) {
-         System.out.println("X: " + Input.getMouseX() + "| Y: " + Input.getMouseY());}
+         System.out.println("X: " + Input.getMouseX() + "| Y: " + Input.getMouseY());
+         }
+
+         double scrollY = Input.getScrollY();
+            if (scrollY != 0) {
+                if (scrollY > 0) {
+                    System.out.println("Scroll up");
+                }
+                else {
+                    System.out.println("Scroll down");
+                }
+                Input.resetScroll();
+            }
 
         }
 
