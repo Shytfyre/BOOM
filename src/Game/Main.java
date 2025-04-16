@@ -23,6 +23,7 @@ public class Main implements Runnable {
         window = new Window(WIDTH, HEIGHT, TITLE);
         window.setBackgroundColor(255, 255, 255); //white ; 0xFFFFFF in hex
         window.create();
+        Graphics.init();
     }
 
     public void run() {
@@ -50,10 +51,10 @@ public class Main implements Runnable {
          double scrollY = Input.getScrollY();
             if (scrollY != 0) {
                 if (scrollY > 0) {
-                    System.out.println("Scroll up");
+                    System.out.println("Scroll up" + scrollY);
                 }
                 else {
-                    System.out.println("Scroll down");
+                    System.out.println("Scroll down" + scrollY);
                 }
                 Input.resetScroll();
             }

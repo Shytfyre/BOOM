@@ -1,9 +1,14 @@
 package engine.IO;
-
+import engine.IO.Graphics;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL30;
+
+import static engine.IO.Graphics.vao;
+import static org.lwjgl.opengl.GL15.*;
+import static org.lwjgl.opengl.GL30.*;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -86,6 +91,8 @@ public class Window {
         }
     }
 
+
+
     public void swapBuffers() {
         GLFW.glfwSwapBuffers(window);
     }
@@ -116,11 +123,18 @@ public class Window {
 
     public void render(){
         glClear(GL_COLOR_BUFFER_BIT);
+        renderer();
         swapBuffers();
 
     }
 
-
+    public void renderer() {
+        glBindVertexArray(vao);
+        glEnableVertexAttribArray(0);
+        glDrawArrays(GL_TRIANGLES, 0, 6); // 6 vertices = 2 triangles
+        glDisableVertexAttribArray(0);
+        glBindVertexArray(0);
+    }
 
     public void setBackgroundColor(float r, float b, float g){
         backgroundR = r;
