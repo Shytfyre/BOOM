@@ -3,6 +3,10 @@ package Game;
 
 import engine.IO.*;
 import org.lwjgl.glfw.GLFW;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.Path;
+import java.io.IOException;
 
 
 
@@ -24,6 +28,17 @@ public class Main implements Runnable {
         window.setBackgroundColor(255, 255, 255); //white ; 0xFFFFFF in hex
         window.create();
         Graphics.init();
+        //System.out.println("Looking in: " + Paths.get("resources/shaders/shader.vert").toAbsolutePath());
+        try {
+            Path path = Paths.get("./resources/shader/shader.vert");
+            String source = Files.readString(path);
+            System.out.println("Vertex shader:\n" + source);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     public void run() {
