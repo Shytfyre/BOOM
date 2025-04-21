@@ -121,9 +121,13 @@ public class Window {
 
     }
 
-    public void render(){
+    public void render(Shader shader){
         glClear(GL_COLOR_BUFFER_BIT);
+
+        shader.bind();
         renderer();
+        shader.unbind();
+
         swapBuffers();
 
     }
