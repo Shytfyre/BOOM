@@ -30,6 +30,9 @@ public class Main implements Runnable {
         window.setBackgroundColor(255, 255, 255); //white ; 0xFFFFFF in hex
         window.create();
         Graphics.init();
+        MapLoader loader = new MapLoader("resources/maps/map.json");
+        Map map = loader.getMap();
+        //renderer = new Renderer(map) will be added soon I assume
         shader = new Shader("resources/shader/shader.vert", "resources/shader/shader.frag");
 
         // debugging

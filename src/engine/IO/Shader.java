@@ -49,7 +49,7 @@ public class Shader {
         int fragInit = glGetShaderi(fragShaderID, GL_COMPILE_STATUS);
         if (fragInit == GL_FALSE) {
             String errorMessage = glGetShaderInfoLog(fragShaderID);
-            System.err.println("Vertex shader initialization error:\n" + errorMessage);
+            System.err.println("Fragment shader initialization error:\n" + errorMessage);
         }
 
         shaderID = glCreateProgram();

@@ -39,10 +39,11 @@ public class Window {
 
         GLFWVidMode videoMode = GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor());
 
-        int numRows = 9;
-        int maxWidth = videoMode.width();
-        int numCols = numRows; //super redundant as the grid is a square, for visibility only
-        int tileSize = (int) ((maxWidth/2) / (numRows*1.2));
+        //old Minesweeper code, might be useful when the time comes for BOOMSWEEPER
+        //int numRows = 9;
+        //int maxWidth = videoMode.width();
+        //int numCols = numRows; //super redundant as the grid is a square, for visibility only
+        //int tileSize = (int) ((maxWidth/2) / (numRows*1.2));
 
 
         input = new Input();
