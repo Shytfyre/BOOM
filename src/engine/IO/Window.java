@@ -122,16 +122,14 @@ public class Window {
 
     }
 
-    public void render(Shader shader){
-        glClear(GL_COLOR_BUFFER_BIT);
 
-        shader.bind();
-        renderer();
-        shader.unbind();
-
-        swapBuffers();
-
-    }
+    // public void render(Shader shader){
+    // glClear(GL_COLOR_BUFFER_BIT);
+    // shader.bind();
+    // renderer();
+    // shader.unbind();
+    // swapBuffers();
+    //}
 
     public void renderer() {
         glBindVertexArray(vao);
@@ -147,4 +145,11 @@ public class Window {
         backgroundG = g;
     }
 
+
+    public int getWidth() {
+        return width;
+    }
+    public int getHeight() {
+        return height;
+    }
 }

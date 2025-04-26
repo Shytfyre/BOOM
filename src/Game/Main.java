@@ -14,9 +14,12 @@ import org.lwjgl.glfw.GLFW;
 public class Main implements Runnable {
     public Thread game;
     public Window window;
+    private Shader shader;
+    private Map map;
+    private MapRenderer mapRenderer;
     public final int WIDTH = 1500, HEIGHT = 800;
     public final String TITLE = "BOOM";
-    private Shader shader;
+
 
 
 
@@ -32,7 +35,13 @@ public class Main implements Runnable {
         Graphics.init();
         MapLoader loader = new MapLoader("resources/maps/map.json");
         Map map = loader.getMap();
-        //renderer = new Renderer(map) will be added soon I assume
+        int screenWidth = window.getWidth();
+        int screenHeight = window.getHeight();
+        int tileSizeW = screenWidth / map.width;
+        int tileSizeH = screenHeight / map.height;
+        int tileSize = Math.min(tileSizeW, tileSizeH);
+        mapRenderer = new MapRenderer(map, tileSize, screenWidth, screenHeight);
+        mapRenderer.init();
         shader = new Shader("resources/shader/shader.vert", "resources/shader/shader.frag");
 
         // debugging
@@ -83,7 +92,9 @@ public class Main implements Runnable {
         }
 
     private void render() {
-        window.render(shader);
+        mapRenderer.render(shader);
+        window.swapBuffers();
+
     }
 
     public void destroy() {
