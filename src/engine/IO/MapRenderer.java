@@ -77,6 +77,8 @@ public void init(){
         //debugging
         //System.out.println("vertexCount = " + vertexCount);
         shader.bind();
+        shader.setUniform1f("u_screenWidth", screenWidth);
+        shader.setUniform1f("u_screenHeight", screenHeight);
         glBindVertexArray(vao);
         glEnableVertexAttribArray(0);
         glDrawArrays(GL_TRIANGLES, 0, vertexCount);

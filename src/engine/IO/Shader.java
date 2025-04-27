@@ -1,12 +1,12 @@
 package engine.IO;
 
-import org.lwjgl.opengl.GL30;
+
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL30.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
+
 
 public class Shader {
     private int vertShaderID;
@@ -92,4 +92,13 @@ public class Shader {
     public void destroy() {
         glDeleteProgram(shaderID);
     }
+
+    public void setUniform1f(String name, float value) {
+    int location = glGetUniformLocation(shaderID, name);
+    if (location != -1) {
+        glUniform1f(location, value);
+    } else {
+        System.err.println("Warning: Uniform '" + name + "' not found!");
+    }
+}
 }
