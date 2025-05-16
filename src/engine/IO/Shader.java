@@ -1,9 +1,13 @@
 package engine.IO;
 
 
+import org.joml.Matrix4f;
+import org.lwjgl.system.MemoryStack;
+
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL30.*;
 import java.io.IOException;
+import java.nio.FloatBuffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -73,12 +77,6 @@ public class Shader {
         System.out.println("Shader initialization error:\n ");
         e.printStackTrace();
     }
-
-
-
-
-
-
 }
 
     public void bind(){
@@ -93,12 +91,13 @@ public class Shader {
         glDeleteProgram(shaderID);
     }
 
-    public void setUniform1f(String name, float value) {
-    int location = glGetUniformLocation(shaderID, name);
-    if (location != -1) {
-        glUniform1f(location, value);
-    } else {
-        System.err.println("Warning: Uniform '" + name + "' not found!");
+    public void setUniform(String name, Matrix4f matrix) {
+        try (MemoryStack stack = MemoryStack.stackPush()) {
+            FloatBuffer fb = stack.mallocFloat(16);
+            matrix.get(fb);
+            int loc = glGetUniformLocation(shaderID, name);
+            glUniformMatrix4fv(loc, false, fb);
+        }
     }
-}
+
 }

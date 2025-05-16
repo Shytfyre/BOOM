@@ -5,12 +5,15 @@ import org.lwjgl.glfw.*;
 public class Input {
     private static boolean[] keys = new boolean[GLFW.GLFW_KEY_LAST];
     private static boolean[] buttons = new boolean[GLFW.GLFW_MOUSE_BUTTON_LAST];
-    private static double mouseX, mouseY, scrollX, scrollY;
+    private static double mouseX, mouseY, scrollX, scrollY, lastMouseX, lastMouseY, deltaX, deltaY;
 
     private GLFWKeyCallback keyboard;
     private GLFWMouseButtonCallback mouseButton;
     private GLFWCursorPosCallback mousePos;
     private GLFWScrollCallback mouseScroll;
+
+
+
 
 
 
@@ -117,7 +120,29 @@ public class Input {
         return scrollY;
     }
 
+    public static void update(){
+        deltaX = mouseX - lastMouseX;
+        deltaY = mouseY - lastMouseY;
 
+        lastMouseX = mouseX;
+        lastMouseY = mouseY;
+    }
+
+    public static double getDeltaX() {
+        return deltaX;
+    }
+
+    public static double getDeltaY() {
+        return deltaY;
+    }
+
+    public static void setCursorPosition(long window, int x, int y) {
+        GLFW.glfwSetCursorPos(window, x, y);
+        lastMouseX = x;
+        lastMouseY = y;
+        mouseX = x;
+        mouseY = y;
+    }
 
 
 

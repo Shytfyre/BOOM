@@ -8,8 +8,18 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="lwjgl" level="project" />
-    <orderEntry type="library" name="java" level="project" />
-    <orderEntry type="library" name="gson-2.10.1" level="project" />
+    <orderEntry type="library" exported="" name="java" level="project" />
+    <orderEntry type="library" exported="" name="gson-2.10.1" level="project" />
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/JOML-1.10.8/JOML-1.10.8/libs/jre-stubs.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="library" name="buildhelper" level="project" />
+    <orderEntry type="library" name="lwjgl+joml" level="project" />
   </component>
 </module>

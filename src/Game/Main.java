@@ -2,6 +2,7 @@ package Game;
 
 
 import engine.IO.*;
+import org.joml.Matrix4f;
 import org.lwjgl.glfw.GLFW;
 //debugging shader path
 // import java.nio.file.Files;
@@ -16,6 +17,8 @@ public class Main implements Runnable {
     public Window window;
     private Shader shader;
     private Map map;
+    private Camera camera;
+    private Matrix4f projectionMatrix;
     private MapRenderer mapRenderer;
     public final int WIDTH = 1500, HEIGHT = 800;
     public final String TITLE = "BOOM";
@@ -34,15 +37,23 @@ public class Main implements Runnable {
         window.create();
         Graphics.init();
         MapLoader loader = new MapLoader("resources/maps/map.json");
-        Map map = loader.getMap();
+        map = loader.getMap();
         int screenWidth = window.getWidth();
         int screenHeight = window.getHeight();
         int tileSizeW = screenWidth / map.width;
         int tileSizeH = screenHeight / map.height;
         int tileSize = Math.min(tileSizeW, tileSizeH);
+        float aspect = (float) screenWidth / screenHeight;
+        //projectionMatrix = new Matrix4f().ortho(-aspect, aspect, -1f, 1f, -1f, 1f);
+        projectionMatrix = new Matrix4f().ortho(0, screenWidth, screenHeight, 0, -1, 1);
+
+
+
         mapRenderer = new MapRenderer(map, tileSize, screenWidth, screenHeight);
         mapRenderer.init();
         shader = new Shader("resources/shader/shader.vert", "resources/shader/shader.frag");
+        camera = new Camera(0, 0, 0);
+
 
         // debugging
         // System.out.println("Looking in: " + Paths.get("resources/shader/shader.vert").toAbsolutePath());
@@ -73,6 +84,45 @@ public class Main implements Runnable {
 
 
     private void update() {
+        Input.update();
+
+        float moveSpeed = 5.0f;
+        float rotationSpeed = 0.002f;
+        float dx = 0;
+        float dy = 0;
+
+        if (Input.isKeyDown(GLFW.GLFW_KEY_W)){
+            dx += (float) Math.cos(camera.getRotation()) * moveSpeed;
+            dy += (float) Math.sin(camera.getRotation()) * moveSpeed;
+        }
+
+        if (Input.isKeyDown(GLFW.GLFW_KEY_A)){
+            dx += (float) Math.sin(camera.getRotation()) * moveSpeed;
+            dy += (float) Math.cos(camera.getRotation()) * moveSpeed;
+        }
+
+        if (Input.isKeyDown(GLFW.GLFW_KEY_D)){
+            dx -= (float) Math.sin(camera.getRotation()) * moveSpeed;
+            dy -= (float) Math.cos(camera.getRotation()) * moveSpeed;
+        }
+
+
+        camera.move(dx, dy);
+
+        double centerX = window.getWidth() / 2;
+        double centerY = window.getHeight() / 2;
+        double mouseX = Input.getMouseX();
+        double mouseY = Input.getMouseY();
+
+        float deltaX = (float) Input.getDeltaX();
+        float deltaY = (float) Input.getDeltaY();
+
+        camera.rotate(-deltaX * rotationSpeed);
+
+        long handle = window.getWindow();
+
+        Input.setCursorPosition(handle, (int)centerX, (int)centerY);
+
         window.update();
 
          if (Input.isButtonDown(GLFW.GLFW_MOUSE_BUTTON_LEFT)) {
@@ -92,7 +142,7 @@ public class Main implements Runnable {
         }
 
     private void render() {
-        mapRenderer.render(shader);
+        mapRenderer.render(shader, camera, projectionMatrix);
         window.swapBuffers();
 
     }

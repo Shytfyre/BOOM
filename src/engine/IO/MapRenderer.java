@@ -1,6 +1,8 @@
 package engine.IO;
 
 
+import org.joml.Matrix4f;
+
 import java.util.ArrayList;
 import java.util.List;
 import static org.lwjgl.opengl.GL30.*;
@@ -73,12 +75,14 @@ public void init(){
         return vertexArray;
     }
 
-    public void render(Shader shader){
+    public void render(Shader shader, Camera camera, Matrix4f projectionMatrix){
         //debugging
         //System.out.println("vertexCount = " + vertexCount);
         shader.bind();
-        shader.setUniform1f("u_screenWidth", screenWidth);
-        shader.setUniform1f("u_screenHeight", screenHeight);
+
+        shader.setUniform("uProjection", projectionMatrix);
+        shader.setUniform("uView", camera.getViewMatrix());
+
         glBindVertexArray(vao);
         glEnableVertexAttribArray(0);
         glDrawArrays(GL_TRIANGLES, 0, vertexCount);

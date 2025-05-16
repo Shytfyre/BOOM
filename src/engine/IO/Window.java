@@ -1,16 +1,14 @@
 package engine.IO;
-import engine.IO.Graphics;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL30;
-
 import static engine.IO.Graphics.vao;
+import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL30.*;
 
-import static org.lwjgl.opengl.GL11.*;
+
 
 
 public class Window {
@@ -48,6 +46,9 @@ public class Window {
 
         input = new Input();
         window = GLFW.glfwCreateWindow(videoMode.width(), videoMode.height(), title, GLFW.glfwGetPrimaryMonitor(), 0);
+
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
 
         if (window == 0) {
             System.err.println("ERROR 2: Window wasn't initialized");
@@ -152,4 +153,9 @@ public class Window {
     public int getHeight() {
         return height;
     }
+
+    public long getWindow() {
+        return window;
+    }
+
 }
