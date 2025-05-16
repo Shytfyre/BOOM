@@ -14,6 +14,7 @@ public class MapRenderer {
     private final int tileSize;
     private final int screenWidth, screenHeight;
     float offsetX, offsetY;
+    private final float wallHeight = 100f;
 
 
     public MapRenderer(Map map, int tileSize, int screenWidth, int screenHeight){
@@ -26,8 +27,8 @@ public class MapRenderer {
 
 public void init(){
 
-    offsetX = (screenWidth - map.width * tileSize) / 2f;
-    offsetY = (screenHeight - map.height * tileSize) / 2f;
+    offsetX = -(map.width * tileSize) / 2f;
+    offsetY = -(map.height * tileSize) / 2f;
 
     float[] vertexArray = generateVertexArray();
     vertexCount = vertexArray.length / 2;
@@ -39,7 +40,7 @@ public void init(){
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBufferData(GL_ARRAY_BUFFER, vertexArray, GL_STATIC_DRAW);
 
-    glVertexAttribPointer(0, 2, GL_FLOAT, false, 2 * Float.BYTES, 0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, false, 3 * Float.BYTES, 0);
     glEnableVertexAttribArray(0);
 
     glBindBuffer(GL_ARRAY_BUFFER,0);
@@ -55,14 +56,16 @@ public void init(){
                 if (map.mapTiles[row][col] == 1){
                     float x = col * tileSize + offsetX;
                     float y = row * tileSize + offsetY;
+                    float zF = 0f; //Floor height
+                    float zW = wallHeight; //Wall height
     
-                    vertices.add(x);               vertices.add(y);
-                    vertices.add(x + tileSize);    vertices.add(y);
-                    vertices.add(x + tileSize);    vertices.add(y + tileSize);
+                    vertices.add(x);               vertices.add(y);                 vertices.add(zF);
+                    vertices.add(x + tileSize);    vertices.add(y);                 vertices.add(zF);
+                    vertices.add(x + tileSize);    vertices.add(y + tileSize);      vertices.add(zW);
     
-                    vertices.add(x + tileSize);    vertices.add(y + tileSize);
-                    vertices.add(x);               vertices.add(y + tileSize);
-                    vertices.add(x);               vertices.add(y);
+                    vertices.add(x + tileSize);    vertices.add(y + tileSize);      vertices.add(zW);
+                    vertices.add(x);               vertices.add(y + tileSize);      vertices.add(zW);
+                    vertices.add(x);               vertices.add(y);                 vertices.add(zF);
                 }
             }
         }

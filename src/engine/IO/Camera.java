@@ -1,5 +1,6 @@
 package engine.IO;
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
 
 
 public class Camera {
@@ -37,10 +38,24 @@ public class Camera {
 
     public Matrix4f getViewMatrix() {
         Matrix4f view = new Matrix4f();
+
+        float cameraX = x;
+        float cameraY = y;
+        float cameraZ = z;
+
+        float directionX = (float) Math.cos(rotation - Math.PI / 2);
+        float directionY = (float) Math.sin(rotation - Math.PI / 2);
+        float directionZ = 0f;
+
+        Vector3f eye = new Vector3f(cameraX, cameraY, cameraZ);
+        Vector3f center = new Vector3f(cameraX + directionX, cameraY + directionY, cameraZ + directionZ);
+        Vector3f up = new Vector3f(0f, 0f, 1f);
+
         view.identity();
         view.rotate(-rotation, 0, 0, 1);
         view.translate(-x, -y, 0);
-        return view;
+
+        return view.lookAt(eye, center, up);
     }
 
     public float getX(){
@@ -53,5 +68,12 @@ public class Camera {
 
     public float getRotation(){
         return rotation;
+    }
+
+    public void setZ(float z) {
+        this.z = z;
+    }
+    public float getZ() {
+        return z;
     }
 }

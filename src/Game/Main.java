@@ -22,6 +22,8 @@ public class Main implements Runnable {
     private MapRenderer mapRenderer;
     public final int WIDTH = 1500, HEIGHT = 800;
     public final String TITLE = "BOOM";
+    float viewSize = 400f;
+
 
 
 
@@ -45,7 +47,8 @@ public class Main implements Runnable {
         int tileSize = Math.min(tileSizeW, tileSizeH);
         float aspect = (float) screenWidth / screenHeight;
         //projectionMatrix = new Matrix4f().ortho(-aspect, aspect, -1f, 1f, -1f, 1f);
-        projectionMatrix = new Matrix4f().ortho(0, screenWidth, screenHeight, 0, -1, 1);
+        projectionMatrix = new Matrix4f().perspective((float)Math.toRadians(60), aspect, 0.1f, 1000f);
+
 
 
 
@@ -53,7 +56,7 @@ public class Main implements Runnable {
         mapRenderer.init();
         shader = new Shader("resources/shader/shader.vert", "resources/shader/shader.frag");
         camera = new Camera(0, 0, 0);
-
+        camera.setZ(50f);
 
         // debugging
         // System.out.println("Looking in: " + Paths.get("resources/shader/shader.vert").toAbsolutePath());
@@ -85,25 +88,36 @@ public class Main implements Runnable {
 
     private void update() {
         Input.update();
-
+        float rotation = camera.getRotation();
         float moveSpeed = 5.0f;
         float rotationSpeed = 0.002f;
+
+        float forwardX = -(float) Math.cos(rotationSpeed - Math.PI / 2);
+        float forwardY = (float) Math.sin(rotationSpeed - Math.PI / 2);
+        float rightX   = -(float) Math.cos(rotationSpeed);
+        float rightY   = (float) Math.sin(rotationSpeed);
+
         float dx = 0;
         float dy = 0;
 
         if (Input.isKeyDown(GLFW.GLFW_KEY_W)){
-            dx += (float) Math.cos(camera.getRotation()) * moveSpeed;
-            dy += (float) Math.sin(camera.getRotation()) * moveSpeed;
+            dx += forwardX * moveSpeed;
+            dy += forwardY * moveSpeed;
         }
 
         if (Input.isKeyDown(GLFW.GLFW_KEY_A)){
-            dx += (float) Math.sin(camera.getRotation()) * moveSpeed;
-            dy += (float) Math.cos(camera.getRotation()) * moveSpeed;
+            dx -= rightX * moveSpeed;
+            dy -= rightY * moveSpeed;
+        }
+
+        if (Input.isKeyDown(GLFW.GLFW_KEY_S)) {
+            dx -= forwardX * moveSpeed;
+            dy -= forwardY * moveSpeed;
         }
 
         if (Input.isKeyDown(GLFW.GLFW_KEY_D)){
-            dx -= (float) Math.sin(camera.getRotation()) * moveSpeed;
-            dy -= (float) Math.cos(camera.getRotation()) * moveSpeed;
+            dx += rightX * moveSpeed;
+            dy += rightY * moveSpeed;
         }
 
 
