@@ -4,6 +4,8 @@ package Game;
 import engine.IO.*;
 import org.joml.Matrix4f;
 import org.lwjgl.glfw.GLFW;
+
+import java.util.Arrays;
 //debugging shader path
 // import java.nio.file.Files;
 // import java.nio.file.Paths;
@@ -49,14 +51,27 @@ public class Main implements Runnable {
         //projectionMatrix = new Matrix4f().ortho(-aspect, aspect, -1f, 1f, -1f, 1f);
         projectionMatrix = new Matrix4f().perspective((float)Math.toRadians(60), aspect, 0.1f, 1000f);
 
+        //Grid debugging
+        //System.out.println("Map dimensions: " + map.width + "×" + map.height);
+        //for (int r = 0; r < map.height; r++) {
+            //System.out.println(Arrays.toString(map.mapTiles[r]));
+        //}
+
+
 
 
 
         mapRenderer = new MapRenderer(map, tileSize, screenWidth, screenHeight);
         mapRenderer.init();
         shader = new Shader("resources/shader/shader.vert", "resources/shader/shader.frag");
-        camera = new Camera(0, 0, 0);
-        camera.setZ(50f);
+
+        //despair
+        float camX = 8 * tileSize;
+        float camZ = -5 * tileSize;
+        float camY = 50f;
+
+        camera = new Camera(camX, camY, camZ);
+       
 
         // debugging
         // System.out.println("Looking in: " + Paths.get("resources/shader/shader.vert").toAbsolutePath());
@@ -92,36 +107,36 @@ public class Main implements Runnable {
         float moveSpeed = 5.0f;
         float rotationSpeed = 0.002f;
 
-        float forwardX = -(float) Math.cos(rotationSpeed - Math.PI / 2);
-        float forwardY = (float) Math.sin(rotationSpeed - Math.PI / 2);
-        float rightX   = -(float) Math.cos(rotationSpeed);
-        float rightY   = (float) Math.sin(rotationSpeed);
+        float forwardX = (float) Math.cos(rotation);
+        float forwardZ = (float) Math.sin(rotation);
+        float rightX   = (float) Math.cos(rotation + Math.PI / 2);
+        float rightZ   = (float) Math.sin(rotation + Math.PI / 2);
 
         float dx = 0;
-        float dy = 0;
+        float dz = 0;
 
         if (Input.isKeyDown(GLFW.GLFW_KEY_W)){
             dx += forwardX * moveSpeed;
-            dy += forwardY * moveSpeed;
+            dz += forwardZ * moveSpeed;
         }
 
         if (Input.isKeyDown(GLFW.GLFW_KEY_A)){
             dx -= rightX * moveSpeed;
-            dy -= rightY * moveSpeed;
+            dz -= rightZ * moveSpeed;
         }
 
         if (Input.isKeyDown(GLFW.GLFW_KEY_S)) {
             dx -= forwardX * moveSpeed;
-            dy -= forwardY * moveSpeed;
+            dz -= forwardZ * moveSpeed;
         }
 
         if (Input.isKeyDown(GLFW.GLFW_KEY_D)){
             dx += rightX * moveSpeed;
-            dy += rightY * moveSpeed;
+            dz += rightZ * moveSpeed;
         }
 
 
-        camera.move(dx, dy);
+        camera.move(dx, dz);
 
         double centerX = window.getWidth() / 2;
         double centerY = window.getHeight() / 2;

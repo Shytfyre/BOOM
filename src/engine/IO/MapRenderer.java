@@ -26,12 +26,23 @@ public class MapRenderer {
     }
 
 public void init(){
+    //Testing something for now - this is original code
+    //offsetX = -(map.width * tileSize) / 2f;
+    //offsetY = -(map.height * tileSize) / 2f;
 
-    offsetX = -(map.width * tileSize) / 2f;
-    offsetY = -(map.height * tileSize) / 2f;
+
+
+    float totalWidth  = map.width  * tileSize;
+    float totalHeight = map.height * tileSize;
+
+    offsetX = -totalWidth  * 0.5f + tileSize * 0.5f;
+    offsetY =  totalHeight * 0.5f - tileSize * 0.5f;
+
+
+
 
     float[] vertexArray = generateVertexArray();
-    vertexCount = vertexArray.length / 2;
+    vertexCount = vertexArray.length / 3;
 
     vao = glGenVertexArrays();
     glBindVertexArray(vao);
@@ -48,35 +59,82 @@ public void init(){
 
 }
 
-    private float[] generateVertexArray() {
-        List <Float> vertices = new ArrayList<>();
 
-        for (int row = 0; row < map.height; row++){
-            for (int col = 0; col < map.width; col++){
-                if (map.mapTiles[row][col] == 1){
+
+    private float[] generateVertexArray() {
+        List<Float> vertices = new ArrayList<>();
+
+        for (int row = 0; row < map.height; row++) {
+            for (int col = 0; col < map.width; col++) {
+                if (map.mapTiles[row][col] == 1) {
                     float x = col * tileSize + offsetX;
-                    float y = row * tileSize + offsetY;
-                    float zF = 0f; //Floor height
-                    float zW = wallHeight; //Wall height
-    
-                    vertices.add(x);               vertices.add(y);                 vertices.add(zF);
-                    vertices.add(x + tileSize);    vertices.add(y);                 vertices.add(zF);
-                    vertices.add(x + tileSize);    vertices.add(y + tileSize);      vertices.add(zW);
-    
-                    vertices.add(x + tileSize);    vertices.add(y + tileSize);      vertices.add(zW);
-                    vertices.add(x);               vertices.add(y + tileSize);      vertices.add(zW);
-                    vertices.add(x);               vertices.add(y);                 vertices.add(zF);
+                    float z = -row * tileSize + offsetY;  // Z instead of Y
+                    float y0 = 0f;
+                    float y1 = wallHeight;
+
+                    boolean leftEmpty   = (col == 0) || map.mapTiles[row][col - 1] == 0;
+                    boolean rightEmpty  = (col == map.width - 1) || map.mapTiles[row][col + 1] == 0;
+                    boolean frontEmpty  = (row == 0) || map.mapTiles[row - 1][col] == 0;
+                    boolean backEmpty   = (row == map.height - 1) || map.mapTiles[row + 1][col] == 0;
+
+                    // FRONT face (−Z)
+                    if (frontEmpty) {
+                        vertices.add(x);            vertices.add(y0); vertices.add(z);
+                        vertices.add(x + tileSize); vertices.add(y0); vertices.add(z);
+                        vertices.add(x + tileSize); vertices.add(y1); vertices.add(z);
+
+                        vertices.add(x + tileSize); vertices.add(y1); vertices.add(z);
+                        vertices.add(x);            vertices.add(y1); vertices.add(z);
+                        vertices.add(x);            vertices.add(y0); vertices.add(z);
+                    }
+
+                    // BACK face (+Z)
+                    if (backEmpty) {
+                        float zBack = z + tileSize;
+                        vertices.add(x + tileSize); vertices.add(y0); vertices.add(zBack);
+                        vertices.add(x);            vertices.add(y0); vertices.add(zBack);
+                        vertices.add(x);            vertices.add(y1); vertices.add(zBack);
+
+                        vertices.add(x);            vertices.add(y1); vertices.add(zBack);
+                        vertices.add(x + tileSize); vertices.add(y1); vertices.add(zBack);
+                        vertices.add(x + tileSize); vertices.add(y0); vertices.add(zBack);
+                    }
+
+                    // LEFT face (−X)
+                    if (leftEmpty) {
+                        vertices.add(x); vertices.add(y0); vertices.add(z + tileSize);
+                        vertices.add(x); vertices.add(y0); vertices.add(z);
+                        vertices.add(x); vertices.add(y1); vertices.add(z);
+
+                        vertices.add(x); vertices.add(y1); vertices.add(z);
+                        vertices.add(x); vertices.add(y1); vertices.add(z + tileSize);
+                        vertices.add(x); vertices.add(y0); vertices.add(z + tileSize);
+                    }
+
+                    // RIGHT face (+X)
+                    if (rightEmpty) {
+                        float xRight = x + tileSize;
+                        vertices.add(xRight); vertices.add(y0); vertices.add(z);
+                        vertices.add(xRight); vertices.add(y0); vertices.add(z + tileSize);
+                        vertices.add(xRight); vertices.add(y1); vertices.add(z + tileSize);
+
+                        vertices.add(xRight); vertices.add(y1); vertices.add(z + tileSize);
+                        vertices.add(xRight); vertices.add(y1); vertices.add(z);
+                        vertices.add(xRight); vertices.add(y0); vertices.add(z);
+                    }
                 }
             }
         }
 
         float[] vertexArray = new float[vertices.size()];
-        for (int i = 0; i < vertices.size(); i++){
+        for (int i = 0; i < vertices.size(); i++) {
             vertexArray[i] = vertices.get(i);
-
         }
+
         return vertexArray;
     }
+
+
 
     public void render(Shader shader, Camera camera, Matrix4f projectionMatrix){
         //debugging
