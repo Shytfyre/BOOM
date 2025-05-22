@@ -1,18 +1,12 @@
 package Game;
-
-
 import engine.IO.*;
 import org.joml.Matrix4f;
 import org.lwjgl.glfw.GLFW;
-
-import java.util.Arrays;
 //debugging shader path
 // import java.nio.file.Files;
 // import java.nio.file.Paths;
 // import java.nio.file.Path;
 // import java.io.IOException;
-
-
 
 public class Main implements Runnable {
     public Thread game;
@@ -25,10 +19,6 @@ public class Main implements Runnable {
     public final int WIDTH = 1500, HEIGHT = 800;
     public final String TITLE = "BOOM";
     float viewSize = 400f;
-
-
-
-
 
     public void start() {
         game = new Thread(this, TITLE);
@@ -57,10 +47,6 @@ public class Main implements Runnable {
             //System.out.println(Arrays.toString(map.mapTiles[r]));
         //}
 
-
-
-
-
         mapRenderer = new MapRenderer(map, tileSize, screenWidth, screenHeight);
         mapRenderer.init();
         shader = new Shader("resources/shader/shader.vert", "resources/shader/shader.frag");
@@ -71,7 +57,6 @@ public class Main implements Runnable {
         float camY = 50f;
 
         camera = new Camera(camX, camY, camZ);
-       
 
         // debugging
         // System.out.println("Looking in: " + Paths.get("resources/shader/shader.vert").toAbsolutePath());
@@ -99,7 +84,6 @@ public class Main implements Runnable {
         }
         destroy();
     }
-
 
     private void update() {
         Input.update();
@@ -134,7 +118,6 @@ public class Main implements Runnable {
             dx += rightX * moveSpeed;
             dz += rightZ * moveSpeed;
         }
-
 
         camera.move(dx, dz);
 

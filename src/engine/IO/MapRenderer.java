@@ -1,8 +1,5 @@
 package engine.IO;
-
-
 import org.joml.Matrix4f;
-
 import java.util.ArrayList;
 import java.util.List;
 import static org.lwjgl.opengl.GL30.*;
@@ -30,15 +27,11 @@ public void init(){
     //offsetX = -(map.width * tileSize) / 2f;
     //offsetY = -(map.height * tileSize) / 2f;
 
-
-
     float totalWidth  = map.width  * tileSize;
     float totalHeight = map.height * tileSize;
 
     offsetX = -totalWidth  * 0.5f + tileSize * 0.5f;
     offsetY =  totalHeight * 0.5f - tileSize * 0.5f;
-
-
 
 
     float[] vertexArray = generateVertexArray();
@@ -133,7 +126,6 @@ public void init(){
 
         return vertexArray;
     }
-
 
 
     public void render(Shader shader, Camera camera, Matrix4f projectionMatrix){

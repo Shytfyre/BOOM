@@ -1,9 +1,6 @@
 package engine.IO;
-
-
 import org.joml.Matrix4f;
 import org.lwjgl.system.MemoryStack;
-
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL30.*;
 import java.io.IOException;

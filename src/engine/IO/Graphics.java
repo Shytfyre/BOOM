@@ -1,6 +1,4 @@
 package engine.IO;
-
-
 import org.lwjgl.opengl.GL30;
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL30.*;

@@ -1,5 +1,4 @@
 package engine.IO;
-
 import org.lwjgl.glfw.*;
 
 public class Input {

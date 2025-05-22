@@ -54,23 +54,20 @@ public class Window {
             System.err.println("ERROR 2: Window wasn't initialized");
             return;
         }
+
         //This line centers the window for windowed mode
         //GLFW.glfwSetWindowPos(window, (videoMode.width() - width / 2), (videoMode.height() - height / 2));
+
         GLFW.glfwMakeContextCurrent(window);
         GL.createCapabilities();
         GL11.glEnable(GL_DEPTH_TEST);
 
         initGraphics(videoMode.width(), videoMode.height());
 
-
-
-
-
         GLFW.glfwSetKeyCallback(window, input.getKeyboardCallback());
         GLFW.glfwSetCursorPosCallback(window, input.getMousePosCallback());
         GLFW.glfwSetMouseButtonCallback(window, input.getMouseButtonCallback());
         GLFW.glfwSetScrollCallback(window, input.getScrollCallback());
-
 
         GLFW.glfwShowWindow(window);
 
@@ -92,7 +89,6 @@ public class Window {
             frames = 0;
         }
     }
-
 
 
     public void swapBuffers() {
