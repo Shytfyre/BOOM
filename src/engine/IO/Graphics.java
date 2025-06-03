@@ -5,7 +5,6 @@ import static org.lwjgl.opengl.GL30.*;
 
 
 
-
 public class Graphics {
 
     public static int vao;
