@@ -27,10 +27,10 @@ public class Main implements Runnable {
 
     public void init() {
         window = new Window(WIDTH, HEIGHT, TITLE);
-        window.setBackgroundColor(255, 255, 255); //white ; 0xFFFFFF in hex
+        window.setBackgroundColor(20, 20, 20); //white ; 0xFFFFFF in hex
         window.create();
         Graphics.init();
-        MapLoader loader = new MapLoader("resources/maps/map.json");
+        MapLoader loader = new MapLoader("resources/maps/mapTestScale.json");
         map = loader.getMap();
         int screenWidth = window.getWidth();
         int screenHeight = window.getHeight();

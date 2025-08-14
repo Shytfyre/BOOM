@@ -29,6 +29,9 @@ public class Window {
         this.title = title;
     }
 
+
+
+
     public void create() {
         if (!GLFW.glfwInit()) {
             System.err.println("ERROR 1: GLFW wasn't initialized");

@@ -13,6 +13,7 @@ public MapLoader(String mapFilePath) {
 
         try {
             String json = Files.readString(Path.of(mapFilePath));
+            System.out.println(json);
             this.map = new Gson().fromJson(json, Map.class);
         } catch (IOException e) {
             throw new RuntimeException("Failed to load map from: " + mapFilePath + e);

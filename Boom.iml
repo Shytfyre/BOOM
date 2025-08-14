@@ -20,6 +20,6 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="buildhelper" level="project" />
-    <orderEntry type="library" name="lwjgl+joml" level="project" />
+    <orderEntry type="library" name="lwjgl-release-3.3" level="project" />
   </component>
 </module>

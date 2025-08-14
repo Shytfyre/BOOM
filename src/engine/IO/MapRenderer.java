@@ -27,6 +27,22 @@ public void init(){
     //offsetX = -(map.width * tileSize) / 2f;
     //offsetY = -(map.height * tileSize) / 2f;
 
+    // Debugging
+    System.out.println("map.width = " + map.width);
+    System.out.println("map.height = " + map.height);
+
+    System.out.println("Loaded rows: " + map.mapTiles.length);
+    for (int i = 0; i < map.mapTiles.length; i++) {
+        System.out.println("Row " + i + " length = " + map.mapTiles[i].length);
+    }
+
+    for (int row = 0; row < map.height; row++) {
+        System.out.println("Row " + row + " length = " + map.mapTiles[row].length);
+    }
+
+
+
+
     float totalWidth  = map.width  * tileSize;
     float totalHeight = map.height * tileSize;
 
@@ -59,7 +75,8 @@ public void init(){
 
         for (int row = 0; row < map.height; row++) {
             for (int col = 0; col < map.width; col++) {
-                if (map.mapTiles[row][col] == 1) {
+                // 1 = normal walls ; 3 = destructible walls
+                if (map.mapTiles[row][col] == 1 || map.mapTiles[row][col] == 3) {
                     float x = col * tileSize + offsetX;
                     float z = -row * tileSize + offsetY;  // Z instead of Y
                     float y0 = 0f;
