@@ -1,4 +1,4 @@
-**DOOM - Clone **
+**DOOM - Clone**
 
 Inspired by the 1993 original by id software, developed using Java and modern OpenGL practises and scaled down to keep the look and feel of the original.
 
