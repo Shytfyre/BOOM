@@ -23,6 +23,7 @@ LWJGL
 OpenGL
 GLSL
 GSON
+IntelliJ
 
 
 **About this project**
